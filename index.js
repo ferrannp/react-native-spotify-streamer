@@ -1,4 +1,6 @@
-import { AppRegistry } from 'react-native';
-import App from './App';
+/* @flow */
 
-AppRegistry.registerComponent('ReactNativeSpotifyStreamer', () => App);
+import { AppRegistry } from 'react-native';
+import Root from './src/root';
+
+AppRegistry.registerComponent('ReactNativeSpotifyStreamer', () => Root);
