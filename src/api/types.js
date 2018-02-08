@@ -18,8 +18,15 @@ export type AlbumType = {
   width: number,
 };
 
+export type ArtistType = {
+  name: string,
+};
+
 export type TrackType = {
   album: AlbumType,
+  artists: Array<ArtistType>,
+  duration_ms: number,
+  id: string,
   name: string,
   preview_url: string,
 };

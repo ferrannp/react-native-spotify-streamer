@@ -1,8 +1,9 @@
 /* @flow */
 
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import {
   AsyncStorage,
+  FlatList,
   Platform,
   StatusBar,
   StyleSheet,
@@ -14,6 +15,8 @@ import type { Theme } from 'react-native-paper/src/types';
 
 import { authHeaders, fetchSearch, getToken, tokenHeaders } from './api/api';
 import type { TokenResult, TrackResult, TrackType } from './api/types';
+import TrackItem from './TrackItem';
+import Player from './Player';
 
 type Props = {
   theme: Theme,
@@ -110,22 +113,38 @@ class App extends Component<Props, State> {
     });
   };
 
+  renderBody = () => {
+    const { query } = this.state;
+
+    return (
+      <Fragment>
+        <SearchBar
+          autoCorrect={false}
+          placeholder="Type a track name"
+          onChangeText={this.onArtistChange}
+          value={query}
+        />
+        <FlatList
+          keyExtractor={item => item.id}
+          data={this.state.tracks}
+          renderItem={({ item }) => <TrackItem track={item} />}
+          contentContainerStyle={styles.listContainer}
+        />
+        <Player />
+      </Fragment>
+    );
+  };
+
   render() {
     const { theme } = this.props;
-    const { accessToken, query } = this.state;
+    const { accessToken } = this.state;
 
     return (
       <View
         style={[styles.container, { backgroundColor: theme.colors.background }]}
       >
         <StatusBar barStyle="light-content" />
-        {!!accessToken && (
-          <SearchBar
-            placeholder="Type a track name"
-            onChangeText={this.onArtistChange}
-            value={query}
-          />
-        )}
+        {!!accessToken && this.renderBody()}
       </View>
     );
   }
@@ -135,6 +154,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: Platform.OS === 'ios' ? 24 : 0,
+  },
+  listContainer: {
+    paddingTop: 8,
+    paddingBottom: 16,
   },
 });
 
