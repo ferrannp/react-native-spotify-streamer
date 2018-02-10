@@ -3,7 +3,6 @@
 import React, { Component, Fragment } from 'react';
 import {
   AsyncStorage,
-  FlatList,
   Platform,
   StatusBar,
   StyleSheet,
@@ -15,8 +14,7 @@ import type { Theme } from 'react-native-paper/src/types';
 
 import { authHeaders, fetchSearch, getToken, tokenHeaders } from './api/api';
 import type { TokenResult, TrackResult, TrackType } from './api/types';
-import TrackItem from './TrackItem';
-import Player from './Player';
+import TrackList from './TrackList';
 
 type Props = {
   theme: Theme,
@@ -105,7 +103,7 @@ class App extends Component<Props, State> {
   };
 
   onArtistChange = query => {
-    this.setState({ query }, () => {
+    this.setState({ query, tracks: !query ? [] : this.state.tracks }, () => {
       if (query) {
         // $FlowFixMe
         this.searchInput$.next(query);
@@ -114,7 +112,7 @@ class App extends Component<Props, State> {
   };
 
   renderBody = () => {
-    const { query } = this.state;
+    const { query, tracks } = this.state;
 
     return (
       <Fragment>
@@ -124,13 +122,7 @@ class App extends Component<Props, State> {
           onChangeText={this.onArtistChange}
           value={query}
         />
-        <FlatList
-          keyExtractor={item => item.id}
-          data={this.state.tracks}
-          renderItem={({ item }) => <TrackItem track={item} />}
-          contentContainerStyle={styles.listContainer}
-        />
-        <Player />
+        <TrackList tracks={tracks} />
       </Fragment>
     );
   };
@@ -154,10 +146,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: Platform.OS === 'ios' ? 24 : 0,
-  },
-  listContainer: {
-    paddingTop: 8,
-    paddingBottom: 16,
   },
 });
 

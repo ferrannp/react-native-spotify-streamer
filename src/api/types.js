@@ -13,9 +13,11 @@ export type TokenResult = {
 };
 
 export type AlbumType = {
-  height: number,
-  url: string,
-  width: number,
+  images: {
+    height: number,
+    url: string,
+    width: number,
+  },
 };
 
 export type ArtistType = {
