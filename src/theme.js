@@ -5,7 +5,9 @@ import { DarkTheme } from 'react-native-paper';
 
 type ThemeColors = {
   colors: {
-    divider: '#95898E',
+    icon: string,
+    divider: string,
+    ripple: string,
   },
 };
 
@@ -17,7 +19,9 @@ const theme = {
     ...DarkTheme.colors,
     background: '#373C3F',
     divider: '#95898E',
+    icon: '#FFFFFF',
     primary: '#18D1A8',
+    ripple: 'rgba(255, 255, 255, .20)',
     secondaryText: '#D9D7DA',
   },
 };

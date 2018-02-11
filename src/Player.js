@@ -6,6 +6,7 @@ import { Divider, ProgressBar, Text, withTheme } from 'react-native-paper';
 
 import type { ThemeType } from './theme';
 import type { TrackType } from './api/types';
+import PlayerControls from './PlayerControls';
 
 type Props = {
   theme: ThemeType,
@@ -45,13 +46,13 @@ class Player extends Component<Props> {
               <View style={styles.trackInfo}>
                 <View>
                   <Text
-                    numberOfLines={2}
+                    numberOfLines={1}
                     style={[styles.title, { fontFamily: theme.fonts.light }]}
                   >
                     {track.name}
                   </Text>
                   <Text
-                    numberOfLines={2}
+                    numberOfLines={1}
                     style={[
                       styles.artist,
                       {
@@ -62,18 +63,20 @@ class Player extends Component<Props> {
                   >
                     {track.artists[0].name.toUpperCase()}
                   </Text>
+                  <Text>
+                    0:10
+                    <Text style={{ color: theme.colors.secondaryText }}>
+                      {' '}
+                      / 0:28
+                    </Text>
+                  </Text>
                 </View>
-                <ProgressBar style={styles.progressBar} progress={0.2} />
+                <ProgressBar style={styles.progressBar} progress={0.4} />
               </View>
             </Fragment>
           )}
         </View>
-        <View
-          style={[
-            styles.playerContainer,
-            { backgroundColor: theme.colors.primary },
-          ]}
-        />
+        <PlayerControls isTrack={false} isPlaying={false} />
       </View>
     );
   }
@@ -108,10 +111,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     paddingTop: 2,
     paddingBottom: 10,
-  },
-  playerContainer: {
-    height: 80,
-    backgroundColor: '#18D1A8',
   },
   progressBar: {
     paddingVertical: 0,

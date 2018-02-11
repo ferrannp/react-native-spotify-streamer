@@ -3,13 +3,13 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Text, TouchableRipple, withTheme } from 'react-native-paper';
-import type { Theme } from 'react-native-paper/src/types';
 
 import type { TrackType } from './api/types';
+import type { ThemeType } from './theme';
 
 type Props = {
   selectedId: string,
-  theme: Theme,
+  theme: ThemeType,
   track: TrackType,
   onTrackSelected: (track: TrackType) => void,
 };
@@ -26,7 +26,7 @@ class TrackItem extends PureComponent<Props> {
 
     return (
       <TouchableRipple
-        rippleColor="rgba(255, 255, 255, .20)"
+        rippleColor={theme.colors.ripple}
         onPress={this.onTrackSelected}
       >
         <View style={styles.container}>
