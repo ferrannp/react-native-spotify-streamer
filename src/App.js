@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { SearchBar, withTheme } from 'react-native-paper';
 import Rx from 'rxjs/Rx';
+import TrackPlayer from 'react-native-track-player';
 import type { Theme } from 'react-native-paper/src/types';
 
 import { authHeaders, fetchSearch, getToken, tokenHeaders } from './api/api';
@@ -39,6 +40,7 @@ class App extends Component<Props, State> {
   componentDidMount() {
     this.initAccessToken();
     this.initSearchInput();
+    this.initPlayer();
   }
 
   componentWillUnmount() {
@@ -100,6 +102,10 @@ class App extends Component<Props, State> {
       .subscribe((result: TrackResult) => {
         this.setState({ tracks: result.tracks.items });
       });
+  };
+
+  initPlayer = async () => {
+    await TrackPlayer.setupPlayer();
   };
 
   onArtistChange = query => {

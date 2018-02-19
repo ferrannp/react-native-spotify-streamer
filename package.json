@@ -13,7 +13,10 @@
     "react": "16.2.0",
     "react-native": "0.52.2",
     "react-native-paper": "^0.0.8",
+    "react-native-track-player": "^0.2.2",
     "react-native-vector-icons": "^4.5.0",
+    "react-redux": "^5.0.7",
+    "redux": "^3.7.2",
     "rxjs": "^5.5.6"
   },
   "devDependencies": {
@@ -23,7 +26,8 @@
     "eslint-config-callstack-io": "^1.1.1",
     "flow-bin": "0.61.0",
     "jest": "22.1.4",
-    "react-test-renderer": "16.2.0"
+    "react-test-renderer": "16.2.0",
+    "reactotron-react-native": "^1.14.0"
   },
   "jest": {
     "preset": "react-native"

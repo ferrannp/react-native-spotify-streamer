@@ -13,11 +13,12 @@ export type TokenResult = {
 };
 
 export type AlbumType = {
-  images: {
+  name: string,
+  images: Array<{
     height: number,
     url: string,
     width: number,
-  },
+  }>,
 };
 
 export type ArtistType = {
