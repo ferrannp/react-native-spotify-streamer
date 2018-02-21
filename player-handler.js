@@ -43,8 +43,8 @@ async function playerHandler(dispatch: DispatchType, data: Data) {
       dispatch(playbackState(data.state));
       break;
     }
-    // case 'playback-track-changed':
-    //   break;
+    case 'playback-track-changed':
+      break;
     case 'playback-error':
       Alert.alert('An error occurred', data.error);
       break;

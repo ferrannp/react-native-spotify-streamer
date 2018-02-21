@@ -1,7 +1,7 @@
 /* @flow */
 
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Platform, StyleSheet, View } from 'react-native';
 import { withTheme } from 'react-native-paper';
 import TrackPlayer from 'react-native-track-player';
 import { connect } from 'react-redux';
@@ -17,25 +17,35 @@ type Props = {
   track: TrackType,
 };
 
+// The constant TrackPlayer.STATE_PLAYING is not consistent across platforms
+// https://github.com/react-native-kit/react-native-track-player/issues/141
+const STATE_PLAYING = Platform.OS === 'android' ? 3 : 'STATE_PLAYING';
+const STATE_PAUSED = Platform.OS === 'android' ? 2 : 'STATE_PAUSED';
+
 class PlayerControls extends PureComponent<Props> {
   componentWillReceiveProps(nextProps: Props) {
-    if (this.props.track !== nextProps.track) {
+    if (nextProps.track && this.props.track !== nextProps.track) {
       this._checkChangeSelectedTrack();
     }
   }
 
   _checkChangeSelectedTrack = async () => {
-    if (await !!TrackPlayer.getCurrentTrack()) {
+    let isCurrentTrack;
+    isCurrentTrack = await !!TrackPlayer.getCurrentTrack().catch(() => {
+      // If nothing is playing, it rejects the promise
+      isCurrentTrack = false;
+    });
+    if (isCurrentTrack) {
       this._playNewTrack();
     }
   };
 
   _onPlayPause = async () => {
-    const state = await TrackPlayer.getState();
+    const state = this.props.playerState;
 
-    if (state === TrackPlayer.STATE_PLAYING) {
+    if (state === STATE_PLAYING) {
       await TrackPlayer.pause();
-    } else if (state === TrackPlayer.STATE_PAUSED) {
+    } else if (state === STATE_PAUSED) {
       await TrackPlayer.play();
     } else {
       this._playNewTrack();
@@ -67,9 +77,7 @@ class PlayerControls extends PureComponent<Props> {
           disabled={!track}
         />
         <TouchableIcon
-          name={
-            playerState === TrackPlayer.STATE_PLAYING ? 'pause' : 'play-arrow'
-          }
+          name={playerState === STATE_PLAYING ? 'pause' : 'play-arrow'}
           style={styles.iconButton}
           onPress={this._onPlayPause}
           disabled={!track}

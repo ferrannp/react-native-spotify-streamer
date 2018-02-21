@@ -1,6 +1,7 @@
 /* @flow */
 
 import { AppRegistry } from 'react-native';
+import TrackPlayer from 'react-native-track-player';
 
 import './ReactotronConfig';
 import Root from './src/root';
@@ -13,6 +14,7 @@ if (global.__DEV__) {
 }
 
 AppRegistry.registerComponent('ReactNativeSpotifyStreamer', () => Root);
-AppRegistry.registerHeadlessTask('TrackPlayer', () =>
-  playerHandler(store.dispatch)
-);
+// AppRegistry.registerHeadlessTask('TrackPlayer', () =>
+//   playerHandler(store.dispatch)
+// );
+TrackPlayer.registerEventHandler(playerHandler(store.dispatch));
