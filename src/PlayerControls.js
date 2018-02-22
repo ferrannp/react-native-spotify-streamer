@@ -46,7 +46,14 @@ class PlayerControls extends PureComponent<Props> {
     if (state === STATE_PLAYING) {
       await TrackPlayer.pause();
     } else if (state === STATE_PAUSED) {
-      await TrackPlayer.play();
+      const position = Math.round(await TrackPlayer.getPosition());
+      const duration = Math.round(await TrackPlayer.getDuration());
+      if (position === duration) {
+        // It's finished
+        this._playNewTrack();
+      } else {
+        await TrackPlayer.play();
+      }
     } else {
       this._playNewTrack();
     }
